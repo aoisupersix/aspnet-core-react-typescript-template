@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    paths:
+    - '**.cs'
+    - '**.cshtml'
+    - '**.csproj'
+    - '**.ts'
+
+env:
+  DOTNET_VERSION: '6.0.x'
+  NODE_VERSION: '18'
+  SOLUTION_PATH: 'RazorReactBoilerplate.sln'
+
+jobs:
+  ci:
+    name: Build and test solution
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use dotnet ${{ env.DOTNET_VERSION }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Use node ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: Build with warnings
+      if: github.event_name == 'pull_request'
+      run: dotnet build --configuration Release -clp:NoSummary ${{ env.SOLUTION_PATH }}
+
+    - name: Build without warnings
+      if: github.event_name == 'push'
+      run: dotnet build --configuration Release -clp:ErrorsOnly ${{ env.SOLUTION_PATH }}
+
+    - name: Test
+      run: dotnet test --no-build --configuration Release -v quiet --nologo -l:"console;verbosity=normal" ${{ env.SOLUTION_PATH }}
+
+    - name: Review eslint
+      run: cd src/RazorReactBoilerplate/Scripts && npm run lint
+      if: github.event_name == 'pull_request'
