@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "watch",
+      "label": "npm: watch",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": true,
+      "problemMatcher": ["$ts-webpack-watch", "$eslint-compact"]
+    },
+    {
+      "type": "npm",
+      "script": "build:Debug",
+      "label": "npm: build:Debug",
+      "group": "build",
+      "problemMatcher": ["$ts-webpack", "$eslint-compact"]
+    },
+    {
+      "type": "npm",
+      "script": "build:Release",
+      "label": "npm: build:Release",
+      "group": "build",
+      "problemMatcher": ["$ts-webpack", "$eslint-compact"]
+    }
+  ]
+}

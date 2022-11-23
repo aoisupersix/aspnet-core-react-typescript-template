@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\src\**\*.ts" />
+    <None Include="Scripts\.eslintrc.js" />
+    <None Include="Scripts\.eslintignore">
+      <DependentUpon>.eslintrc.js</DependentUpon>
+    </None>
+    <None Include="Scripts\webpack.common.js" />
+    <None Include="Scripts\webpack.dev.js">
+      <DependentUpon>webpack.common.js</DependentUpon>
+    </None>
+    <None Include="Scripts\webpack.prod.js">
+      <DependentUpon>webpack.common.js</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <Target Name="NpmCI" Inputs="Scripts\package-lock.json;Scripts\package.json" Outputs="Scripts\node_modules\.package-lock.json">
+    <Exec Command="npm ci" WorkingDirectory="Scripts" />
+  </Target>
+  <Target Name="NpmRunBuild" DependsOnTargets="NpmCI" AfterTargets="Build">
+    <Exec Command="npm run build:$(Configuration)" WorkingDirectory="Scripts" />
+  </Target>
+
+</Project>
