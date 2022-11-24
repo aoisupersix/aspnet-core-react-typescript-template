@@ -34,6 +34,8 @@ cd aspnetcore-razor-react-boilerplate
 
 Open the React file (e.g. `RazorReactBoilerplate/Scripts/src/page-scripts/page1.tsx`) in VisualStudio and place a breakpoint to debug the relevant part.
 
+![](/resources/debugonvs.png)
+
 # Debugging React on vscode
 
 1. Open vscode with `RazorReactBoilerplate/Scripts` as root
@@ -43,6 +45,10 @@ code RazorReactBoilerplate/Scripts
 ```
 
 2. Place breakpoints in React file and run "Launch MSEdge"
+
+![](/resources/launchmsedge.png)
+
+![](/resources/debugonvscode.png)
 
 # Hot reloading in React
 
